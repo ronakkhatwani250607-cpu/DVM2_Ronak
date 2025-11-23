@@ -35,14 +35,14 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'allauth.account.middleware.AccountMiddleware',
-    'django_otp.middleware.OTPMiddleware',
+    #'django_otp.middleware.OTPMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -125,19 +125,21 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-# Email Settings  Real Gmail Sending      
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# Email Settings  Real Gmail Sending  
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_EMAIL_VERIFICATION = 'none'    
+#EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = "rdkhatwani07@gmail.com"  # your Gmail
-EMAIL_HOST_PASSWORD = "dbaafmprhsikzhun"  # 16-char Google App Password
+EMAIL_HOST_USER = os.getenv("rdkhatwani07@gmail.com")  # your Gmail
+EMAIL_HOST_PASSWORD = os.getenv("dbaafmprhsikzhun")  # 16-char Google App Password
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Allauth Email Settings
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+#ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_USERNAME_REQUIRED = False
