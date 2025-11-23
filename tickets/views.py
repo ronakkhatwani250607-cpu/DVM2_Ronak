@@ -21,7 +21,7 @@ def buy_ticket(request):
                 ticket.otp = str(random.randint(100000, 999999))
                 ticket.save()
                 # send OTP to email (console backend prints it)
-                send_mail('Your Metro Ticket OTP', f'OTP: {ticket.otp}', 'no-reply@metro.com', [request.user.email])
+                send_mail('Your Metro Ticket OTP', f'OTP: {ticket.otp}', 'rdkhatwani07@gmail.com', [request.user.email])
                 return render(request, 'tickets/otp_verification.html', {'ticket_id': ticket.id})
             else:
                 return render(request, 'tickets/buy_ticket.html', {'form': form, 'error': 'Insufficient money'})
