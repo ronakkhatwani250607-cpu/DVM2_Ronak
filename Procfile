@@ -1,0 +1,1 @@
+web: gunicorn metro_ticket_system.wsgi --timeout 120

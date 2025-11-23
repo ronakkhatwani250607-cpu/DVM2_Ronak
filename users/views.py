@@ -10,7 +10,8 @@ from django_otp.plugins.otp_totp.models import TOTPDevice
 
 def signup_redirect(request):
     if request.method == "POST":
-        redirect('account_signup')
+        return redirect('account_signup')
+    return redirect('account_signup')
 
 @login_required
 def profile(request):
