@@ -1,1 +1,0 @@
-web: gunicorn metro_ticket_system.wsgi --bind 0.0.0.0:$PORT
