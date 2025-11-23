@@ -64,15 +64,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'metro_ticket_system.wsgi.application'
 
+
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'metro_db'),
-        'USER': os.getenv('DB_USER', 'metro_user'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'BzjUpeJxrtKCEolbxN0rqkDia9Xur6av'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '5432'),
-    }
+    'default': dj_database_url.parse(
+        os.getenv(
+            'DATABASE_URL',
+            'postgresql://metro_db_6s8z_user:gEfsz5Ffwn9EGOvgnaBvtXvLZWyRyQmU@dpg-d4hci9p5pdvs739567e0-a.singapore-postgres.render.com/metro_db_6s8z'
+        )
+    )
 }
 
 AUTH_USER_MODEL = 'users.CustomUser'
