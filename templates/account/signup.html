@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+{% block content %}
+<div class="card">
+  <h2>Create account</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn">Create account</button>
+  </form>
+  <div class="divider">or</div>
+  <a class="btn ghost" href="{% provider_login_url 'google' %}">Sign up with Google</a>
+  <p>Already have an account? <a href="{% url 'account_login' %}">Login</a></p>
+</div>
+{% endblock %}

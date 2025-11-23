@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+{% block content %}
+<div class="card">
+  <h2>Stations</h2>
+  <ul>
+    {% for s in stations %}
+      <li>{{ s.name }} — lines: {% for l in s.lines.all %}{{ l.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

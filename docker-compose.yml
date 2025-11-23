@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: metro_user
+      POSTGRES_PASSWORD: metro_pass
+      POSTGRES_DB: metro_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    command: gunicorn metro_ticket_system.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      EMAIL_HOST_USER: "rdkhatwani07@gmail.com"
+      EMAIL_HOST_PASSWORD: "dbaafmprhsikzhun"
+      DATABASE_URL: "postgres://metro_user:metro_pass@db:5432/metro_db"
+      GOOGLE_CLIENT_ID: "30410176082-aa5i94kksi9mvecfjc24498o30s47c4e.apps.googleusercontent.com"
+      GOOGLE_CLIENT_SECRET: "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"
+    depends_on:
+      - db
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load socialaccount %}
+<div class="card">
+  <h2>My Tickets</h2>
+  {% if tickets %}
+    <table class="table">
+      <thead><tr><th>ID</th><th>From</th><th>To</th><th>Line</th><th>Price</th><th>Status</th></tr></thead>
+      <tbody>
+      {% for t in tickets %}
+        <tr>
+          <td>{{ t.id }}</td>
+          <td>{{ t.start_station }}</td>
+          <td>{{ t.end_station }}</td>
+          <td>{{ t.line }}</td>
+          <td>{{ t.price }}</td>
+          <td>{{ t.status }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No tickets yet.</p>
+  {% endif %}
+</div>
+{% endblock %}
