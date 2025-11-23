@@ -100,7 +100,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # django-allauth settings
 SITE_ID = 3
 LOGIN_REDIRECT_URL = '/'
@@ -122,7 +122,7 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-# Email Settings  Real Gmail Sending
+# Email Settings  Real Gmail Sending      
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
