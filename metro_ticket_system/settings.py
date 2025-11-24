@@ -5,7 +5,8 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-change-this')
-DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
+# DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
+DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
@@ -15,6 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    "whitenoise.runserver_nostatic",
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
@@ -32,11 +34,11 @@ INSTALLED_APPS = [
     'tickets',
 ]
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -129,12 +131,13 @@ SOCIALACCOUNT_PROVIDERS = {
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #ACCOUNT_EMAIL_VERIFICATION = 'none'    
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.sendgrid.net"
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = "apikey"  # Always this (literal)
-EMAIL_HOST_PASSWORD = os.getenv("SENDGRID_API_KEY")
+EMAIL_HOST_USER = "rdkhatwani07@gmail.com"  # Always this (literal)
+EMAIL_HOST_PASSWORD = "ttvmvmosunzjfpie"
 
-DEFAULT_FROM_EMAIL = "rdkhatwani07@gmail.com"
-
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# settings.py
+CSRF_TRUSTED_ORIGINS = ['https://tennie-vasoinhibitory-nonpersistently.ngrok-free.dev']
