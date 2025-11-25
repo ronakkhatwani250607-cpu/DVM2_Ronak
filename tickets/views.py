@@ -1,3 +1,4 @@
+import heapq
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import TicketPurchaseForm
@@ -5,7 +6,7 @@ from .models import Ticket
 from django.core.mail import send_mail
 from django.utils import timezone
 import random
-
+from metro.models import MetroStation, MetroLine
 @login_required
 def buy_ticket(request):
     if request.method == 'POST':
@@ -13,14 +14,41 @@ def buy_ticket(request):
         if form.is_valid():
             ticket = form.save(commit=False)
             ticket.passenger = request.user
-            ticket.price = abs(ticket.start_station.id - ticket.end_station.id) * 10
+
+            # --------- DIJKSTRA'S ALGORITHM START ---------
+            start = ticket.start_station
+            end = ticket.end_station
+
+            distances = {station.id: float('inf') for station in MetroStation.objects.all()}
+            distances[start.id] = 0
+            heap = [(0, start.id)]
+            prev = {}
+
+            while heap:
+                current_dist, current_id = heapq.heappop(heap)
+                if current_id == end.id:
+                    break
+                current_station = MetroStation.objects.get(id=current_id)
+                for line in current_station.lines.all():
+                    for neighbor in line.stations.exclude(id=current_id):
+                        distance = 1  # you can adjust this for weighted edges
+                        if current_dist + distance < distances[neighbor.id]:
+                            distances[neighbor.id] = current_dist + distance
+                            prev[neighbor.id] = current_id
+                            heapq.heappush(heap, (distances[neighbor.id], neighbor.id))
+
+            if distances[end.id] == float('inf'):
+                return render(request, 'tickets/buy_ticket.html', {'form': form, 'error': 'No path found between selected stations'})
+
+            ticket.price = distances[end.id] * 10
+            # --------- DIJKSTRA'S ALGORITHM END ---------
+
             ticket.expiry_time = timezone.now() + timezone.timedelta(hours=6)
             if request.user.wallet >= ticket.price:
                 request.user.wallet -= ticket.price
                 request.user.save()
                 ticket.otp = str(random.randint(100000, 999999))
                 ticket.save()
-                # send OTP to email (console backend prints it)
                 send_mail('Your Metro Ticket OTP', f'OTP: {ticket.otp}', 'rdkhatwani07@gmail.com', [request.user.email])
                 return render(request, 'tickets/otp_verification.html', {'ticket_id': ticket.id})
             else:
