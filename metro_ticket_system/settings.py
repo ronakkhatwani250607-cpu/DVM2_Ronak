@@ -106,8 +106,8 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-# django-allauth settings
-SITE_ID = 3
+
+SITE_ID = 2
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_EMAIL_REQUIRED = True
@@ -134,10 +134,12 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = "rdkhatwani07@gmail.com" 
+# EMAIL_HOST_PASSWORD = "udegxcpctfgejhvs"
 
-EMAIL_HOST_USER = "rdkhatwani07@gmail.com"  # Always this (literal)
-EMAIL_HOST_PASSWORD = "ttvmvmosunzjfpie"
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
+# DEFAULT_FROM_EMAIL = "rdkhatwani07@gmail.com"  
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-# settings.py
-CSRF_TRUSTED_ORIGINS = ['https://tennie-vasoinhibitory-nonpersistently.ngrok-free.dev']
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'https://dvm2-ronak-t3eh.onrender.com']

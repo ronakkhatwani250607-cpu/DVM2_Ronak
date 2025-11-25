@@ -7,8 +7,8 @@ WORKDIR /app
 
 COPY requirements.txt /app/
 RUN apt-get update && apt-get install -y build-essential libpq-dev \
-    && pip install --upgrade pip \
-    && pip install -r requirements.txt \
+    && pip3 install --upgrade pip \
+    && pip3 install -r requirements.txt \
     && apt-get remove -y build-essential \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
